@@ -1,7 +1,7 @@
 class ContaModel {
   int _numPessoas;
   double _valor;
-  int _porcentoGarcon;
+  double _porcentoGarcon;
 
   ContaModel(this._numPessoas, this._porcentoGarcon, this._valor);
 
@@ -13,7 +13,7 @@ class ContaModel {
     return _valor;
   }
 
-  int get getPorcentoGarcon {
+  double get getPorcentoGarcon {
     return _porcentoGarcon;
   }
 
@@ -25,7 +25,7 @@ class ContaModel {
     _valor = valor;
   }
 
-  set setPorcentoGarcon(int porcentoGarcon) {
-    _porcentoGarcon = porcentoGarcon;
+  set setPorcentoGarcon(double porcentoGarcon) {
+    _porcentoGarcon = porcentoGarcon / 100;
   }
 }
