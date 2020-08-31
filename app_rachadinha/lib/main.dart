@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:app_rachadinha/model/ContaModel.dart';
 
@@ -27,7 +28,10 @@ class _HomePageState extends State<HomePage> {
   final _numPessoas = TextEditingController();
   final _porcentoGarcom = TextEditingController();
   ContaModel _conta = ContaModel(0, 0, 0);
-  var _infoText = "Preencha os dados";
+  var _infoTextTotal = "Preencha os dados";
+  var _infoTextPercent = "";
+  var _infoTextTotalWitholtPercent = "";
+  var _infoTextIndividual = "";
   var _formKey = GlobalKey<FormState>();
 
   @override
@@ -65,7 +69,10 @@ class _HomePageState extends State<HomePage> {
               _editText("Quantidade de pagantes", _numPessoas),
               _editText("Porcentagem do garçon", _porcentoGarcom),
               _buttonCalcular(),
-              _textInfo(),
+              _textInfoTotal(),
+              _textInfoTotalWithoutPercent(),
+              _textInfoPercent(),
+              _textInfoIndividual()
             ],
           ),
         ));
@@ -127,21 +134,62 @@ class _HomePageState extends State<HomePage> {
       _conta.setPorcentoGarcon = int.parse(_porcentoGarcom.text);
 
       if (_conta.getPorcentoGarcon == 0) {
-        _infoText =
-            "Cada pessoa ira pagar:R\$${_conta.getValor / _conta.getNumPessoas}, sem gorjeta pro garçon.";
+        _infoTextTotal = "O total: R\$${_conta.getValor}.";
+        _infoTextIndividual =
+            "Valor individual:R\$${_conta.getValor / _conta.getNumPessoas}.";
+        _infoTextPercent = "Gorgeta: não tem gorjeta";
+        _infoTextTotalWitholtPercent = "";
         return;
       }
-      _infoText =
-          "Cada Pessoa ira pagar:R\$${_conta.getValor / _conta.getNumPessoas}, gorjeta pro garçon ${_conta.getPorcentoGarcon / 100 * _conta.getValor}";
+      _infoTextTotal =
+          "O total: R\$${_conta.getValor + (_conta.getPorcentoGarcon / 100 * _conta.getValor)}.";
+      _infoTextIndividual =
+          "Valor individual:R\$${(_conta.getValor + (_conta.getPorcentoGarcon / 100 * _conta.getValor)).toStringAsFixed(2)}.";
+      _infoTextPercent =
+          "Gorgeta:R\$${(_conta.getPorcentoGarcon / 100 * _conta.getValor).toStringAsFixed(2)}";
+      _infoTextTotalWitholtPercent =
+          "Valor total sem gorjeta: R\$${_conta.getValor}";
     });
   }
 
   // // Widget text
-  _textInfo() {
+  _textInfoTotal() {
     return Text(
-      _infoText,
+      _infoTextTotal,
       textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.red, fontSize: 25.0),
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(color: Colors.deepPurpleAccent, fontSize: 25.0),
+    );
+  }
+
+  _textInfoTotalWithoutPercent() {
+    return Text(
+      _infoTextTotalWitholtPercent,
+      textAlign: TextAlign.center,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(color: Colors.deepPurpleAccent, fontSize: 25.0),
+    );
+  }
+
+  _textInfoPercent() {
+    return Text(
+      _infoTextPercent,
+      textAlign: TextAlign.center,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(color: Colors.deepPurpleAccent, fontSize: 25.0),
+    );
+  }
+
+  _textInfoIndividual() {
+    return Text(
+      _infoTextIndividual,
+      textAlign: TextAlign.center,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(color: Colors.deepPurpleAccent, fontSize: 25.0),
     );
   }
 }
