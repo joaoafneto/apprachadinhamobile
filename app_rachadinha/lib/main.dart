@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:app_rachadinha/model/ContaModel.dart';
 
@@ -52,6 +51,10 @@ class _HomePageState extends State<HomePage> {
     _conta.setNumPessoas = 0;
     _conta.setPorcentoGarcon = 0;
     _conta.setValor = 0;
+    _infoTextTotal = "Preencha os dados";
+    _infoTextPercent = "";
+    _infoTextTotalWitholtPercent = "";
+    _infoTextIndividual = "";
     setState(() {
       _formKey = GlobalKey<FormState>();
     });
@@ -136,15 +139,15 @@ class _HomePageState extends State<HomePage> {
       if (_conta.getPorcentoGarcon == 0) {
         _infoTextTotal = "O total: R\$${_conta.getValor}.";
         _infoTextIndividual =
-            "Valor individual:R\$${_conta.getValor / _conta.getNumPessoas}.";
+            "Valor individual:R\$${(_conta.getValor / _conta.getNumPessoas).toStringAsFixed(2)}.";
         _infoTextPercent = "Gorgeta: não tem gorjeta";
         _infoTextTotalWitholtPercent = "";
         return;
       }
       _infoTextTotal =
-          "O total: R\$${_conta.getValor + (_conta.getPorcentoGarcon / 100 * _conta.getValor)}.";
+          "O total: R\$${(_conta.getValor + (_conta.getPorcentoGarcon / 100 * _conta.getValor)).toStringAsFixed(2)}.";
       _infoTextIndividual =
-          "Valor individual:R\$${(_conta.getValor + (_conta.getPorcentoGarcon / 100 * _conta.getValor)).toStringAsFixed(2)}.";
+          "Valor individual:R\$${((_conta.getValor + (_conta.getPorcentoGarcon / 100 * _conta.getValor)) / _conta.getNumPessoas).toStringAsFixed(2)}.";
       _infoTextPercent =
           "Gorgeta:R\$${(_conta.getPorcentoGarcon / 100 * _conta.getValor).toStringAsFixed(2)}";
       _infoTextTotalWitholtPercent =
